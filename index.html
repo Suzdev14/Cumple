@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Dónde Celebramos? 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🎂🎉🍰';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .birthday-person {
+            font-size: 1rem;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px 30px;
+        }
+
+        .voting-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .results-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .restaurant-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 3px solid #e1e5e9;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restaurant-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .restaurant-option:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .restaurant-option:hover::before {
+            left: 100%;
+        }
+
+        .restaurant-option input {
+            margin-right: 15px;
+            transform: scale(1.3);
+        }
+
+        .restaurant-info {
+            flex: 1;
+        }
+
+        .restaurant-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-type {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .restaurant-emoji {
+            font-size: 2rem;
+            margin-left: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-container {
+            margin-top: 20px;
+        }
+
+        .result-bar {
+            margin-bottom: 20px;
+            background: #f8faff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .result-name {
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .result-progress {
+            height: 8px;
+            background: #e1e5e9;
+            position: relative;
+        }
+
+        .result-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.8s ease;
+            border-radius: 4px;
+        }
+
+        .winner-indicator {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .votes-list {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8faff;
+            border-radius: 15px;
+        }
+
+        .votes-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .vote-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .voter-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .voted-for {
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        .total-votes {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .celebration {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .voting-section,
+            .results-section {
+                padding: 20px;
+            }
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>¿Dónde Celebramos?</h1>
+            <p>¡Ayuda a elegir el lugar perfecto para mi cumpleaños!</p>
+            <div class="birthday-person">🎈 Tu voto cuenta 🎈</div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Sección de Votación -->
+            <div class="voting-section">
+                <h2 class="section-title">🗳️ Tu Voto</h2>
+                
+                <form id="votingForm">
+                    <div class="form-group">
+                        <label for="voterName">Tu nombre <span class="required">*</span></label>
+                        <input type="text" id="voterName" name="voterName" required placeholder="Escribe tu nombre aquí">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Elige tu restaurante favorito <span class="required">*</span></label>
+                        <div class="restaurants-grid">
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant1" name="restaurant" value="La Pasta Italiana" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">La Pasta Italiana</div>
+                                    <div class="restaurant-type">Comida italiana • Pastas y pizzas</div>
+                                </div>
+                                <div class="restaurant-emoji">🍝</div>
+                            </div>
+
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant2" name="restaurant" value="Sushi Zen" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">Sushi Zen</div>
+                                    <div class="restaurant-type">Comida japonesa • Sushi y ramen</div>
+                                </div>
+                                <div class="restaurant-emoji">🍣</div>
+                            </div>
+
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant3" name="restaurant" value="El Asador Mexicano" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">El Asador Mexicano</div>
+                                    <div class="restaurant-type">Comida mexicana • Carnes y tacos</div>
+                                </div>
+                                <div class="restaurant-emoji">🌮</div>
+                            </div>
+
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant4" name="restaurant" value="Burger Palace" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">Burger Palace</div>
+                                    <div class="restaurant-type">Comida americana • Hamburguesas gourmet</div>
+                                </div>
+                                <div class="restaurant-emoji">🍔</div>
+                            </div>
+
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant5" name="restaurant" value="Garden Café" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">Garden Café</div>
+                                    <div class="restaurant-type">Comida saludable • Ensaladas y bowls</div>
+                                </div>
+                                <div class="restaurant-emoji">🥗</div>
+                            </div>
+
+                            <div class="restaurant-option">
+                                <input type="radio" id="restaurant6" name="restaurant" value="Mariscos del Puerto" required>
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">Mariscos del Puerto</div>
+                                    <div class="restaurant-type">Mariscos frescos • Ceviches y pescados</div>
+                                </div>
+                                <div class="restaurant-emoji">🦐</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">¡Votar Ahora!</button>
+                </form>
+            </div>
+
+            <!-- Sección de Resultados -->
+            <div class="results-section">
+                <h2 class="section-title">📊 Resultados en Vivo</h2>
+                
+                <div class="results-container" id="resultsContainer">
+                    <!-- Los resultados se generarán dinámicamente -->
+                </div>
+
+                <div class="votes-list" id="votesList">
+                    <div class="votes-title">👥 Quién ha votado:</div>
+                    <div id="votersContainer">
+                        <div style="text-align: center; color: #666; font-style: italic;">
+                            Aún no hay votos... ¡Sé la primera!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="total-votes" id="totalVotes">
+                    Total de votos: 0
+                </div>
+
+                <div class="celebration" id="celebration"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de los restaurantes
+        const restaurants = [
+            { name: 'La Pasta Italiana', emoji: '🍝', type: 'Comida italiana' },
+            { name: 'Sushi Zen', emoji: '🍣', type: 'Comida japonesa' },
+            { name: 'El Asador Mexicano', emoji: '🌮', type: 'Comida mexicana' },
+            { name: 'Burger Palace', emoji: '🍔', type: 'Comida americana' },
+            { name: 'Garden Café', emoji: '🥗', type: 'Comida saludable' },
+            { name: 'Mariscos del Puerto', emoji: '🦐', type: 'Mariscos frescos' }
+        ];
+
+        // Almacenar votos (en la vida real, esto sería una base de datos)
+        let votes = [];
+
+        // Función para actualizar los resultados
+        function updateResults() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const votersContainer = document.getElementById('votersContainer');
+            const totalVotesElement = document.getElementById('totalVotes');
+            const celebrationElement = document.getElementById('celebration');
+
+            // Contar votos por restaurante
+            const voteCounts = {};
+            restaurants.forEach(restaurant => {
+                voteCounts[restaurant.name] = 0;
+            });
+
+            votes.forEach(vote => {
+                voteCounts[vote.restaurant]++;
+            });
+
+            // Encontrar el total de votos
+            const totalVotes = votes.length;
+            totalVotesElement.textContent = `Total de votos: ${totalVotes}`;
+
+            // Encontrar el ganador
+            let maxVotes = 0;
+            let winner = '';
+            Object.entries(voteCounts).forEach(([restaurant, count]) => {
+                if (count > maxVotes) {
+                    maxVotes = count;
+                    winner = restaurant;
+                }
+            });
+
+            // Generar barras de resultados
+            let resultsHTML = '';
+            Object.entries(voteCounts).forEach(([restaurantName, count]) => {
+                const restaurant = restaurants.find(r => r.name === restaurantName);
+                const percentage = totalVotes > 0 ? (count / totalVotes) * 100 : 0;
+                const isWinner = restaurantName === winner && count > 0;
+                
+                resultsHTML += `
+                    <div class="result-bar">
+                        <div class="result-header">
+                            <div class="result-name">
+                                ${restaurant.emoji} ${restaurantName}
+                                ${isWinner ? '<span class="winner-indicator">👑</span>' : ''}
+                            </div>
+                            <div class="result-count">${count}</div>
+                        </div>
+                        <div class="result-progress">
+                            <div class="result-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsContainer.innerHTML = resultsHTML;
+
+            // Actualizar lista de votantes
+            if (votes.length === 0) {
+                votersContainer.innerHTML = `
+                    <div style="text-align: center; color: #666; font-style: italic;">
+                        Aún no hay votos... ¡Sé la primera!
+                    </div>
+                `;
+            } else {
+                let votersHTML = '';
+                votes.forEach(vote => {
+                    const restaurant = restaurants.find(r => r.name === vote.restaurant);
+                    votersHTML += `
+                        <div class="vote-item">
+                            <div class="voter-name">${vote.name}</div>
+                            <div class="voted-for">${restaurant.emoji} ${vote.restaurant}</div>
+                        </div>
+                    `;
+                });
+                votersContainer.innerHTML = votersHTML;
+            }
+
+            // Mensaje de celebración si hay un ganador claro
+            if (totalVotes >= 3 && maxVotes > totalVotes / 2) {
+                celebrationElement.innerHTML = `
+                    🎉 ¡${winner} está ganando! 🎉<br>
+                    <small>¿Será el lugar elegido para el cumpleaños?</small>
+                `;
+            } else if (totalVotes >= 5) {
+                celebrationElement.innerHTML = `
+                    🤔 ¡Está muy reñido! Sigue votando para decidir el ganador 🤔
+                `;
+            } else {
+                celebrationElement.innerHTML = '';
+            }
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('votingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const voterName = document.getElementById('voterName').value.trim();
+            const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
+            
+            if (!voterName || !selectedRestaurant) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+
+            // Verificar si la persona ya votó
+            const alreadyVoted = votes.some(vote => vote.name.toLowerCase() === voterName.toLowerCase());
+            if (alreadyVoted) {
+                alert(`¡${voterName} ya votó! Una persona = un voto 😊`);
+                return;
+            }
+
+            // Agregar el voto
+            votes.push({
+                name: voterName,
+                restaurant: selectedRestaurant.value,
+                timestamp: new Date().toISOString()
+            });
+
+            // Actualizar resultados
+            updateResults();
+
+            // Limpiar formulario
+            this.reset();
+
+            // Mensaje de confirmación
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '¡Voto registrado! ✅';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+
+            // Scroll a resultados en móvil
+            if (window.innerWidth <= 768) {
+                document.querySelector('.results-section').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        });
+
+        // Inicializar resultados
+        updateResults();
+
+        // Agregar algunos votos de ejemplo (puedes quitar esto)
+        // votes = [
+        //     { name: 'Ana', restaurant: 'Sushi Zen', timestamp: new Date().toISOString() },
+        //     { name: 'María', restaurant: 'La Pasta Italiana', timestamp: new Date().toISOString() },
+        //     { name: 'Carmen', restaurant: 'Sushi Zen', timestamp: new Date().toISOString() }
+        // ];
+        // updateResults();
+    </script>
+</body>
+</html>
